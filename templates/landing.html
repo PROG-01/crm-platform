@@ -2,13 +2,45 @@
 
 {% block title %}
     Home
-{% endblock %}   
+{% endblock %}
 
 {% block main%}
-    <h1>Manage your clients, projects, and work in one place.</h1>
+    <header>
+        <h1>CRM Platform</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h1>Manage your clients, projects, and work in one place.</h1>
 
-    <p>A simple CRM built for freelancers and small businesses to keep track of clients, projects, deadlines, and everyday work without juggling multiple tools.</p>
+            <p>A simple CRM built for freelancers and small businesses to keep track of clients, projects, deadlines, and everyday work without juggling multiple tools.</p>
 
-    <button>Get Started</button>
-    <button>Log In</button>
+            <button>Get Started</button>
+            <button>Log In</button>
+        </section>
+
+        <section class="features">
+            <h2>Everything you need to stay organized</h2>
+            <ul>
+                <li>
+                    <h3>Manage Clients</h3>
+                    <p>Keep client details, contact information, and related work in one place.</p>
+                </li>
+                <li>
+                    <h3>Track Projects</h3>
+                    <p>Organize projects, monitor progress, and stay on top of deadlines.</p>
+                </li>
+                <li>
+                    <h3>Stay Focused</h3>
+                    <p>See what needs attention at a glance without jumping between different tools.</p>
+                </li>
+            </ul>
+        </section>
+    </main>
 {% endblock %}
