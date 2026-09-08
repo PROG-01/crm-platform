@@ -8,6 +8,11 @@
     <main>
         <section class="register">
             <h2>Create an Account</h2>
+            {% if error %}
+                <p class="error-message" role="alert">
+                    {{ error }}
+                </p>
+            {% endif %}
             <form action="/register" method="POST">
                 <div class="form-group">
                     <label for="name">Full Name</label>

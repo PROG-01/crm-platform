@@ -17,8 +17,8 @@ def index():
 def register():
     if request.method == 'POST':
         # Get form data
-        name = request.form.get('name')
-        email = request.form.get('email')
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip().lower()
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
@@ -39,7 +39,7 @@ def register():
         # Insert data into users table
         db.execute("INSERT INTO users (name, email, hash) VALUES (?, ?, ?)", name, email, password_hash)
 
-        return redirect ('/dashboard.html')
+        return redirect ('/')
 
     else:
         return render_template('register.html')
