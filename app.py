@@ -84,4 +84,10 @@ def login():
     else:
         return render_template('login.html')
 
-    
+@app.route('/dashboard')
+def dashboard():
+    # Check if user is logged in
+    if 'user_id' not in session:
+        return redirect('/login')
+
+    return render_template('dashboard.html')
