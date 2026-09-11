@@ -5,6 +5,8 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from helpers import login_required
+
 app = Flask(__name__)
 
 # Configure session to use filesystem (instead of signed cookies)
@@ -85,9 +87,6 @@ def login():
         return render_template('login.html')
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
-    # Check if user is logged in
-    if 'user_id' not in session:
-        return redirect('/login')
-
     return render_template('dashboard.html')
