@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Clients
+{% endblock %}
+
+{% block main %}
+    
+    {% if clients %}
+        <ul>
+            {% for client in clients %}
+                <li>{{ client[name] }} {{ client[email] }} {{ client[phone] }}</li>
+            {% endfor %}
+        </ul>         
+    {% else %}
+        <p>No clients yet.</p>
+    {% endif %}  
+{% endblock %}

@@ -106,3 +106,13 @@ def logout():
 
     # Redirect to login page
     return redirect('/')
+
+
+@app.route('/clients')
+@login_required
+def clients():
+    # Fetch clients for the logged-in user
+    clients = db.execute("SELECT * FROM clients WHERE user_id = ?", session['user_id'])
+
+    return render_template('clients.html', clients=clients)
+
