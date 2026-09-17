@@ -90,3 +90,12 @@ def login():
 @login_required
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    # Clear session
+    session.clear()
+
+    # Redirect to login page
+    return redirect('/')
