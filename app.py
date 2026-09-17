@@ -89,7 +89,10 @@ def login():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+
+    rows = db.execute("SELECT name FROM users WHERE id = ?", session['user_id'])
+    name = rows[0]['name']
+    return render_template('dashboard.html', name = name)
 
 @app.route('/logout')
 @login_required
