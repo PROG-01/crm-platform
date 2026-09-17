@@ -90,9 +90,13 @@ def login():
 @login_required
 def dashboard():
 
-    rows = db.execute("SELECT name FROM users WHERE id = ?", session['user_id'])
-    name = rows[0]['name']
-    return render_template('dashboard.html', name = name)
+    name_rows = db.execute("SELECT name FROM users WHERE id = ?", session['user_id'])
+    name = name_rows[0]['name']
+
+    client_rows = db.execute("SELECT COUNT(*) AS client_count FROM clients WHERE user_id = ?", session['user_id'])
+    client_count = client_rows[0]['client_count']
+
+    return render_template('dashboard.html', name=name, client_count=client_count)
 
 @app.route('/logout')
 @login_required
