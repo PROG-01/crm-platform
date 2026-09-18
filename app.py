@@ -116,3 +116,23 @@ def clients():
 
     return render_template('clients.html', clients=clients)
 
+@app.route('/clients/new', methods=['GET', 'POST'])
+@login_required
+def new_client():
+    if request.method == 'POST':
+
+        # Get form data
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip().lower()
+        phone = request.form.get('phone', '').strip()
+
+        # Validate form data
+        if not name:
+            return render_template('new_client.html', error='Please provide a name')
+
+        # Insert new client into the database
+        db.execute("INSERT INTO clients (user_id, name, email, phone) VALUES (?, ?, ?, ?)", session['user_id'], name, email, phone)
+
+        return redirect('/clients')
+    else: 
+        return render_template('new_client.html')
