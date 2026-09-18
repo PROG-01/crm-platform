@@ -9,7 +9,11 @@
     {% if clients %}
         <ul>
             {% for client in clients %}
-                <li>{{ client[name] }} {{ client[email] }} {{ client[phone] }}</li>
+                <li>
+                    {{ client["name"] }} 
+                    {{ client["email"] }} 
+                    {{ client["phone"] }}
+                </li>
             {% endfor %}
         </ul>         
     {% else %}
