@@ -114,7 +114,7 @@ def clients():
     # Fetch clients for the logged-in user
     clients = db.execute("SELECT * FROM clients WHERE user_id = ?", session['user_id'])
 
-    return render_template('clients.html', clients=clients)
+    return render_template('clients/index.html', clients=clients)
 
 @app.route('/clients/new', methods=['GET', 'POST'])
 @login_required
@@ -128,11 +128,11 @@ def new_client():
 
         # Validate form data
         if not name:
-            return render_template('new_client.html', error='Please provide a name')
+            return render_template('clients/create.html', error='Please provide a name')
 
         # Insert new client into the database
         db.execute("INSERT INTO clients (user_id, name, email, phone) VALUES (?, ?, ?, ?)", session['user_id'], name, email, phone)
 
         return redirect('/clients')
     else: 
-        return render_template('new_client.html')
+        return render_template('clients/create.html')
