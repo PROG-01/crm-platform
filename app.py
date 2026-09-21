@@ -136,3 +136,15 @@ def new_client():
         return redirect('/clients')
     else: 
         return render_template('clients/create.html')
+
+
+@app.route('/clients/<int:id>')
+@login_required
+def view_client(id):
+    # Fetch client details for the logged-in user
+    client = db.execute("SELECT * FROM clients WHERE id = ? AND user_id = ?", id, session['user_id'])
+
+    if not client:
+        return redirect('/clients')
+
+    return render_template('clients/details.html', client=client[0])    

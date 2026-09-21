@@ -10,9 +10,11 @@
         <ul>
             {% for client in clients %}
                 <li>
-                    {{ client["name"] }} 
-                    {{ client["email"] }} 
-                    {{ client["phone"] }}
+                    <a href="/clients/{{ client['id'] }}">
+                        {{ client["name"] }}
+                    </a>
+                    <span>{{ client["email"] }}</span>
+                    <span>{{ client["phone"] }}</span>
                 </li>
             {% endfor %}
         </ul>         
