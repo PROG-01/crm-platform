@@ -128,7 +128,7 @@ def new_client():
 
         # Validate form data
         if not name:
-            return render_template('clients/create.html', error='Please provide a name')
+            return render_template('clients/create.html', error='Please fill the required field')
 
         # Insert new client into the database
         db.execute("INSERT INTO clients (user_id, name, email, phone) VALUES (?, ?, ?, ?)", session['user_id'], name, email, phone)
@@ -148,3 +148,30 @@ def view_client(id):
         return redirect('/clients')
 
     return render_template('clients/details.html', client=client[0])    
+
+@app.route('/clients/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_client(id):
+    # Fetch client details for the logged-in user
+    client = db.execute("SELECT * FROM clients WHERE id = ? AND user_id = ?", id, session['user_id'])
+
+    if not client:
+        return redirect('/clients')
+
+    if request.method == 'POST':
+        # Get form data
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip().lower()
+        phone = request.form.get('phone', '').strip()
+
+        # Validate form data
+        if not name:
+            return render_template('clients/edit.html', client=client[0], error='Please fill the required field')
+
+        # Update client details in the database
+        db.execute("UPDATE clients SET name = ?, email = ?, phone = ? WHERE id = ? AND user_id = ?", name, email, phone, id, session['user_id'])
+
+        return redirect('/clients')
+
+    else:
+        return render_template('clients/edit.html', client=client[0])

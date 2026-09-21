@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block main %}
+    <h1>Edit Client</h1>
+    <form method="post">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ client.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ client.email }}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" value="{{ client.phone }}">
+        </div>
+        <button type="submit">Update Client</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+{% endblock %}
