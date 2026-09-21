@@ -171,7 +171,7 @@ def edit_client(id):
         # Update client details in the database
         db.execute("UPDATE clients SET name = ?, email = ?, phone = ? WHERE id = ? AND user_id = ?", name, email, phone, id, session['user_id'])
 
-        return redirect('/clients')
+        return redirect(f'/clients/{id}')
 
     else:
         return render_template('clients/edit.html', client=client[0])
