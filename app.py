@@ -175,3 +175,12 @@ def edit_client(id):
 
     else:
         return render_template('clients/edit.html', client=client[0])
+
+@app.route('/clients/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_client(id):
+    
+    # Delete client for the logged-in user
+
+    db.execute("DELETE FROM clients WHERE id = ? AND user_id = ?", id, session['user_id'])
+    return redirect('/clients')

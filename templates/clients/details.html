@@ -4,8 +4,20 @@
 
 {% block main %}
     <h1>Client Details</h1>
-    <p><strong>Name:</strong> {{ client.name }}</p>
-    <p><strong>Email:</strong> {{ client.email }}</p>
-    <p><strong>Phone:</strong> {{ client.phone }}</p>
-    <a href="/clients/{{ client.id }}/edit">Edit Client</a>
+    <div>
+        <p><strong>Name:</strong> {{ client.name }}</p>
+        <p><strong>Email:</strong> {{ client.email }}</p>
+        <p><strong>Phone:</strong> {{ client.phone }}</p>
+    </div>
+    
+    <div>
+        <a href="/clients/{{ client.id }}/edit">Edit Client</a>
+    </div>
+
+    <div>
+        <form action="/clients/{{ client.id }}/delete" method="post" onsubmit="return confirm('Are you sure you wish to delete this client?')">
+            <button type="submit">Delete Client</button>
+        </form>
+    </div>
+    
 {% endblock %}
