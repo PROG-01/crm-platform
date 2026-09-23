@@ -179,8 +179,16 @@ def edit_client(id):
 @app.route('/clients/<int:id>/delete', methods=['POST'])
 @login_required
 def delete_client(id):
-    
+
     # Delete client for the logged-in user
 
     db.execute("DELETE FROM clients WHERE id = ? AND user_id = ?", id, session['user_id'])
     return redirect('/clients')
+
+@app.route('/projects')
+@login_required
+def projects():
+    # Fetch projects for the logged-in user
+    projects = db.execute("SELECT projects.name AS project_name, clients.name AS client_name, projects.status, projects.due_date FROM projects JOIN clients ON projects.client_id = clients.id WHERE projects.user_id = ?", session['user_id'])
+
+    return render_template('projects/index.html', projects=projects)

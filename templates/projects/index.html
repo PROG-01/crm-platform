@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block main %}
+    <h1>Projects</h1>
+    
+    {% if projects %}
+        <ul>
+            {% for project in projects %}
+                <li>
+                    {{ project["project_name"] }}
+                    {{ project["client_name"] }}
+                    {{ project["status"] }}
+                    {{ project["due_date"] }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No projects yet.</p>
+    {% endif %}
+{% endblock %}
