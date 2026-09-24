@@ -192,3 +192,39 @@ def projects():
     projects = db.execute("SELECT projects.name AS project_name, clients.name AS client_name, projects.status, projects.due_date FROM projects JOIN clients ON projects.client_id = clients.id WHERE projects.user_id = ?", session['user_id'])
 
     return render_template('projects/index.html', projects=projects)
+
+@app.route('/projects/new', methods=['GET', 'POST'])
+@login_required
+def new_project():
+
+    # Fetch clients for the logged-in user
+    clients = db.execute(
+    "SELECT id, name FROM clients WHERE user_id = ?",
+    session["user_id"]
+)
+    
+    if request.method == 'POST':
+        # Get form data
+        project_name = request.form.get('project_name', '').strip()
+        client_id = request.form.get('client')
+        description = request.form.get('description', '').strip()
+        status = request.form.get('status')
+        due_date = request.form.get('due_date')
+
+        # Validate form data
+        if not project_name or not client_id or status not in ['Not Started', 'In Progress', 'Completed']:
+            return render_template('projects/create.html', clients=clients, error='Please fill in all required fields')
+
+        # Verify that the selected client belongs to the logged-in user
+        client_row = db.execute("SELECT id FROM clients WHERE id = ? AND user_id = ?", client_id, session['user_id'])
+
+        if not client_row:
+            return render_template('projects/create.html', clients=clients, error='Invalid client selection')
+
+        # Insert new project into the database
+        db.execute("INSERT INTO projects (user_id, client_id, name, description, status, due_date) VALUES (?, ?, ?, ?, ?, ?)", session['user_id'], client_id, project_name, description, status, due_date)
+
+        return redirect('/projects')
+
+    else:
+        return render_template('projects/create.html', clients=clients)

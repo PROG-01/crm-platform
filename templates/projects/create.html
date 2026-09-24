@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Create Project{% endblock %}
+
+{% block main %}
+    <h1>Create Project</h1>
+    <form method="post" action="/projects/new">
+        <div>
+            <label for="project_name">Project Name</label>
+            <input type="text" id="project_name" name="project_name" required>
+        </div>
+        <div>
+            <label for="client">Client</label>
+            <select id="client" name="client" required>
+                <option value="">Select a client</option>
+                {% for client in clients %}
+                    <option value="{{ client['id'] }}">{{ client["name"] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        <div>
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="">Select a status</option>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div>
+            <label for="due_date">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date">
+        </div>
+        <button type="submit">Create Project</button>
+    </form>
+
+    {% if error %}
+        <div class="error-message" role="alert">{{ error }}</div>
+    {% endif %}
+{% endblock %}
