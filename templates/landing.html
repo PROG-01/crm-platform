@@ -11,8 +11,11 @@
 
             <p>A simple CRM built for freelancers and small businesses to keep track of clients, projects, deadlines, and everyday work without juggling multiple tools.</p>
 
-            <a href="/register" class="btn">Get Started</a>
-            <a href="/login" class="btn">Log In</a>
+            {% if not session.get('user_id') %}
+                <a href="/register" class="btn">Get Started</a>
+                <a href="/login" class="btn">Log In</a>
+            {% endif %}
+            
         </section>
 
         <section class="features">
