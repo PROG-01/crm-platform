@@ -10,4 +10,6 @@
     <p><strong>Status:</strong> {{ project["status"] }}</p>
     <p><strong>Due Date:</strong> {{ project["due_date"] }}</p>
     <p><strong>Created:</strong> {{ project["created_at"] }}</p>
+
+    <a href="/projects/{{ project['id'] }}/edit">Edit Project</a>
 {% endblock %}
