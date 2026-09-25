@@ -189,7 +189,7 @@ def delete_client(id):
 @login_required
 def projects():
     # Fetch projects for the logged-in user
-    projects = db.execute("SELECT projects.name AS project_name, clients.name AS client_name, projects.status, projects.due_date FROM projects JOIN clients ON projects.client_id = clients.id WHERE projects.user_id = ?", session['user_id'])
+    projects = db.execute("SELECT projects.name AS project_name, clients.name AS client_name, projects.status, projects.due_date, projects.id FROM projects JOIN clients ON projects.client_id = clients.id WHERE projects.user_id = ?", session['user_id'])
 
     return render_template('projects/index.html', projects=projects)
 
@@ -228,3 +228,16 @@ def new_project():
 
     else:
         return render_template('projects/create.html', clients=clients)
+
+
+@app.route('/projects/<int:id>')
+@login_required
+def view_project(id):
+
+    # Fetch project details for the logged-in user
+    project = db.execute("SELECT projects.*, clients.name AS client_name FROM projects JOIN clients ON projects.client_id = clients.id WHERE projects.id = ? AND projects.user_id = ?", id, session['user_id'])
+
+    if not project:
+        return redirect('/projects')
+
+    return render_template('projects/details.html', project=project[0])
