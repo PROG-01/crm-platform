@@ -241,3 +241,43 @@ def view_project(id):
         return redirect('/projects')
 
     return render_template('projects/details.html', project=project[0])
+
+@app.route('/projects/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_project(id):
+
+    # Fetch project details for the logged-in user
+    project = db.execute("SELECT * FROM projects WHERE id = ? AND user_id = ?", id, session['user_id'])
+
+    if not project:
+        return redirect('/projects')
+
+    if request.method == 'POST':
+
+        # Get form data
+        project_name = request.form.get('project_name', '').strip()
+        client_id = request.form.get('client')
+        description = request.form.get('description', '').strip()
+        status = request.form.get('status')
+        due_date = request.form.get('due_date')
+        
+        # Validate form data
+        if not project_name or not client_id or status not in ['Not Started', 'In Progress', 'Completed']:
+            return render_template('projects/create.html', clients=clients, error='Please fill in all required fields')
+
+        # Verufy that the selected client belongs to the logged-in user
+        client_row = db.execute("SELECT id FROM clients WHERE id = ? AND user_id = ?", client_id, session['user_id'])
+
+        if not client_row:
+            return render_template('projects/create.html', clients=clients, error='Invalid client selection')
+
+        # Update project details in database
+        db.execute("UPDATE projects SET client_id = ?, name = ?, description = ?, status = ?, due_date = ? WHERE id = ? AND user_id = ?", client_id, project_name, description, status, due_date, id, session['user_id'])
+
+        return redirect(f'/projects/{id}')
+
+    else:
+        # Fetch clients for the logged-in user
+        clients = db.execute("SELECT id, name FROM clients WHERE user_id = ?", session['user_id'])
+
+        return render_template('projects/edit.html', project=project[0], clients=clients)
