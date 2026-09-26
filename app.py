@@ -181,8 +181,8 @@ def edit_client(id):
 def delete_client(id):
 
     # Delete client for the logged-in user
-
     db.execute("DELETE FROM clients WHERE id = ? AND user_id = ?", id, session['user_id'])
+    
     return redirect('/clients')
 
 @app.route('/projects')
@@ -281,3 +281,12 @@ def edit_project(id):
 
     else:
         return render_template('projects/edit.html', project=project[0], clients=clients)
+
+@app.route('/projects/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_project(id):
+
+    # Delete project for the logged-in user
+    db.execute("DELETE FROM projects WHERE id = ? AND user_id = ?", id, session['user_id'])
+
+    return redirect('/projects')    

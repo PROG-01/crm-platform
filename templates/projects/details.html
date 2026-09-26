@@ -12,4 +12,8 @@
     <p><strong>Created:</strong> {{ project["created_at"] }}</p>
 
     <a href="/projects/{{ project['id'] }}/edit">Edit Project</a>
+
+    <form action="/projects/{{ project['id'] }}/delete" method="post" onsubmit="return confirm('Are you sure you wish to delete this project?')">
+        <button type="submit">Delete Project</button>
+    </form>
 {% endblock %}
